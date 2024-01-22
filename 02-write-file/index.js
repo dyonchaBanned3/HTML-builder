@@ -4,7 +4,7 @@ const path = require('path');
 const filePath = path.join(__dirname, 'result.txt');
 
 const {stdin, stdout} = process;
-const writeStream = fs.createWriteStream(filePath, 'utf-8');
+const writeStream = fs.createWriteStream(filePath, {flags: 'a'});
 
 stdout.write('Hi! Please, write your message: ');
 
