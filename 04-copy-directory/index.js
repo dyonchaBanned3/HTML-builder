@@ -14,7 +14,14 @@ async function createFolderCopy(source, target) {
     await Promise.all(files.map(async (file) => {
       const filePath = path.join(source, file);
       const fileCopyPath = path.join(target, file);
-      await fsPromises.copyFile(filePath, fileCopyPath);
+
+      const stat = await fsPromises.stat(filePath);
+      // for directories
+      if (stat.isDirectory()) {
+        await createFolderCopy(filePath, fileCopyPath)
+      } else {
+        await fsPromises.copyFile(filePath, fileCopyPath);
+      }
     }));
   } catch (error) {
     console.error('Error:', error.message);
